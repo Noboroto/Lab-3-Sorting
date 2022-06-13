@@ -32,7 +32,7 @@ void Command_0 ()
             ExportArray(GeneratedDataArray[data_index], "Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]) + ".txt");
         }
         fo << "\nResulting statics,";
-                fo.flush();
+        fo.flush();
         for (int j = 0; j < DATA_SIZE.size(); ++j)
         {
             fo << "Running time,Comparision,";
@@ -46,7 +46,7 @@ void Command_0 ()
         for (int index = 0; index < ALGO_NAME.size(); ++index)
         {
             cout << BREAK_LINE;
-            cout << ALGO_NAME[index] << "\n";
+            cout << ALGO_NAME[index] << endl;
             cout << BREAK_LINE;
 
             fo << ALGO_NAME[index] << ",";
@@ -56,7 +56,7 @@ void Command_0 ()
             {
                 arr = vector<int>(GeneratedDataArray[data_index]);
 
-                cout << "Input size: " << arr.size() << "\n";
+                cout << "Input size: " << arr.size() << endl;
 
                 MeasureInfo algo_info = MeasureSorting(SORT_ARRAY[index], SORT_ARRAY_COUNTING[index], arr, 0b11);
 
@@ -69,11 +69,10 @@ void Command_0 ()
             }
             fo << endl;
         }
-
         fo.close();
     }
 
-    cout << "END!\n";
+    cout << "END!" << endl;
     fo.open("end.txt");
     fo.close();
 }

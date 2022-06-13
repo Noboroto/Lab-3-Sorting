@@ -29,7 +29,7 @@ void Command_0 ()
             fo.flush();
             GeneratedDataArray[data_index] = vector<int>(DATA_SIZE[data_index]);
             GenerateData(&GeneratedDataArray[data_index][0], GeneratedDataArray[data_index].size(), input_order);
-            ExportArray(GeneratedDataArray[data_index], "Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]));
+            ExportArray(GeneratedDataArray[data_index], "Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]) + ".txt");
         }
         fo << "\nResulting statics,";
                 fo.flush();

@@ -3,37 +3,42 @@
 double RadixSort(int array[], const int &n)
 {
     clock_t start = clock();
-    int i, exp = array[0];
-    int counting[2] = {0, 0};
+    int i, exp, max_value = array[0];
+    int counting[10];
     int bit = 0;
 
     vector<int> temp = vector<int>(n);
 
-    for (i = 1; i < n; i++)
+    for (i = 1; i < n; ++i)
     {
-        if (array[i] > exp)
+        if (array[i] > max_value)
         {
-            exp = array[i];
+            max_value = array[i];
         }
     }
 
-    for (; exp > 0; exp >>= 1, ++bit)
+    for (exp = 1; max_value / exp > 0; exp *= 10)
     {
-        counting[0] = 0;
-        counting[1] = 0;
-
-        for (i = 0; i < n; i++)
+        for (i = 0; i < 10; ++i)
         {
-            counting[(array[i] >> bit) & 1]++;
+            counting[i] = 0;
+        }
+
+        for (i = 0; i < n; ++i)
+        {
+            counting[(array[i] / exp) % 10]++;
             temp[i] = array[i];
         }
 
-        counting[1] += counting[0];
+        for (i = 1; i < 10; i++)
+        {
+            counting[i] += counting[i - 1];
+        }
 
         for (i = temp.size() - 1; i >= 0; i--)
         {
-            array[counting[(temp[i] >> bit) & 1] - 1] = temp[i];
-            counting[(temp[i] >> bit) & 1]--;
+            array[counting[(temp[i] / exp) % 10] - 1] = temp[i];
+            counting[(temp[i] / exp) % 10]--;
         }
     }
 
@@ -42,37 +47,42 @@ double RadixSort(int array[], const int &n)
 
 void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-
-    int i, exp;
-    int counting[2] = {0, 0};
+    int i, exp, max_value = array[0];
+    int counting[10];
     int bit = 0;
+
     vector<int> temp = vector<int>(n);
 
-    for (i = 1; ++comparison_counter && i < n; i++)
+    for (i = 1;++comparison_counter && i < n; ++i)
     {
-        if (++comparison_counter && array[i] > exp)
+        if (++comparison_counter && array[i] > max_value)
         {
-            exp = array[i];
+            max_value = array[i];
         }
     }
 
-    for (; ++comparison_counter && exp > 0; exp >>= 1, ++bit)
+    for (exp = 1; ++comparison_counter && max_value / exp > 0; exp *= 10)
     {
-        counting[0] = 0;
-        counting[1] = 0;
-
-        for (i = 0; ++comparison_counter && i < n; i++)
+        for (i = 0; ++comparison_counter && i < 10; ++i)
         {
-            counting[(array[i] >> bit) & 1]++;
+            counting[i] = 0;
+        }
+
+        for (i = 0; ++comparison_counter && i < n; ++i)
+        {
+            counting[(array[i] / exp) % 10]++;
             temp[i] = array[i];
         }
 
-        counting[1] += counting[0];
+        for (i = 1; ++comparison_counter && i < 10; i++)
+        {
+            counting[i] += counting[i - 1];
+        }
 
         for (i = temp.size() - 1; ++comparison_counter && i >= 0; i--)
         {
-            array[counting[(temp[i] >> bit) & 1] - 1] = temp[i];
-            counting[(temp[i] >> bit) & 1]--;
+            array[counting[(temp[i] / exp) % 10] - 1] = temp[i];
+            counting[(temp[i] / exp) % 10]--;
         }
     }
 }
@@ -113,8 +123,151 @@ void ShellSortCounting(int array[], const int &n, uint64_t &comparison_counter)
     }
 }
 
-double FlashSort(int array[], const int &n) { return 0;}
-void FlashSortCounting(int array[], const int &n, uint64_t &comparison_counter) {}
+double FlashSort(int array[], const int &n)
+{
+    clock_t start = clock();
+    int min_val = array[0];
+    int max_index = 0;
+    int m = int(0.45 * n);
+    vector<int> l = vector<int>(m, 0);
+    int i, temp, k;
+
+    for (i = 1; i < n; ++i)
+    {
+        if (array[i] < min_val)
+        {
+            min_val = array[i];
+        }
+        if (array[i] > array[max_index])
+        {
+            max_index = i;
+        }
+    }
+
+    if (array[max_index] == min_val)
+    {
+        return (clock() - start);
+    }
+
+    double c1 = (double)(m - 1) / (array[max_index] - min_val);
+
+    for (i = 0; i < n; ++i)
+    {
+        k = int(c1 * (array[i] - min_val));
+        ++l[k];
+    }
+
+    for (i = 1; i < m; ++i)
+    {
+        l[i] += l[i - 1];
+    }
+
+    temp = array[max_index];
+    array[max_index] = array[0];
+    array[0] = temp;
+
+    int nmove = 0;
+    int j = 0;
+    k = m - 1;
+    int t = 0;
+    int flash, hold;
+    while (nmove < n - 1)
+    {
+        while (j > l[k] - 1)
+        {
+            j++;
+            k = int(c1 * (array[j] - min_val));
+        }
+        flash = array[j];
+        if (k < 0)
+        {
+            break;
+        }
+        while (j != l[k])
+        {
+            k = int(c1 * (flash - min_val));
+            hold = array[t = --l[k]];
+            array[t] = flash;
+            flash = hold;
+            ++nmove;
+        }
+    }
+
+    InsertionSort(array, n);
+    return (clock() - start);
+}
+
+void FlashSortCounting(int array[], const int &n, uint64_t &comparison_counter)
+{
+    int min_val = array[0];
+    int max_index = 0;
+    int m = int(0.45 * n);
+    vector<int> l = vector<int>(m, 0);
+    int i, temp, k;
+
+    for (i = 1;++comparison_counter && i < n; ++i)
+    {
+        if (++comparison_counter && array[i] < min_val)
+        {
+            min_val = array[i];
+        }
+        if (++comparison_counter && array[i] > array[max_index])
+        {
+            max_index = i;
+        }
+    }
+
+    if (++comparison_counter && array[max_index] == min_val)
+    {
+        return;
+    }
+
+    double c1 = (double)(m - 1) / (array[max_index] - min_val);
+
+    for (i = 0; ++comparison_counter && i < n; ++i)
+    {
+        k = int(c1 * (array[i] - min_val));
+        ++l[k];
+    }
+
+    for (i = 1; ++comparison_counter && i < m; ++i)
+    {
+        l[i] += l[i - 1];
+    }
+
+    temp = array[max_index];
+    array[max_index] = array[0];
+    array[0] = temp;
+
+    int nmove = 0;
+    int j = 0;
+    k = m - 1;
+    int t = 0;
+    int flash, hold;
+    while (++comparison_counter && nmove < n - 1)
+    {
+        while (++comparison_counter && (j > l[k] - 1))
+        {
+            j++;
+            k = int(c1 * (array[j] - min_val));
+        }
+        flash = array[j];
+        if (++comparison_counter &&(k < 0))
+        {
+            break;
+        }
+        while (++comparison_counter && (j != l[k]))
+        {
+            k = int(c1 * (flash - min_val));
+            hold = array[t = --l[k]];
+            array[t] = flash;
+            flash = hold;
+            ++nmove;
+        }
+    }
+
+    InsertionSortCounting(array, n, comparison_counter);
+}
 
 double ShakerSort(int arr[], const int &n)
 {
@@ -139,9 +292,11 @@ double ShakerSort(int arr[], const int &n)
         }
         left = index + 1;
         if (temp_index == index)
+        {
             break;
+        }
         temp_index = index;
-        for (i = left; i < right; i++)
+        for (i = left; i < right; ++i)
         {
             if (arr[i] > arr[i + 1])
             {
@@ -153,7 +308,9 @@ double ShakerSort(int arr[], const int &n)
         }
         right = index - 1;
         if (temp_index == index)
+        {
             break;
+        }
     }
 
     return (clock() - start);
@@ -183,7 +340,7 @@ void ShakerSortCounting(int arr[], const int &n, uint64_t &comparison_counter)
         if (++comparison_counter && (temp_index == index))
             break;
         temp_index = index;
-        for (i = left; ++comparison_counter && i < right; i++)
+        for (i = left; ++comparison_counter && i < right; ++i)
         {
             if (++comparison_counter && (arr[i] > arr[i + 1]))
             {

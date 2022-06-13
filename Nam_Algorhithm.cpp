@@ -65,7 +65,9 @@ double MergeSort(int array[], const int &n)
 {
     clock_t start = clock();
     if (n == 1)
+    {
         return (clock() - start);
+    }
     vector<int> a(n / 2, 0);
     vector<int> b(n / 2, 0);
     if (n % 2 != 0)

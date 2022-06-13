@@ -3,10 +3,11 @@
 
 #include <cstdint>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
-typedef void (*SortAlgoPointer)(int array[], const int &n);
+typedef double (*SortAlgoPointer)(int array[], const int &n);
 typedef void (*SortAlgoPointerWithCounting)(int array[], const int &n, uint64_t &comparison_counter);
 
 struct MeasureInfo

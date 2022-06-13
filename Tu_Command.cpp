@@ -12,6 +12,7 @@ void Command_0 ()
         300000,
         500000,
     };
+    vector < vector <int> > GeneratedDataArray = vector< vector<int> >(DATA_SIZE.size());
     ofstream fo;
 
     for (int input_order = 0; input_order < INPUT_ORDER_NAME.size(); ++input_order)
@@ -19,13 +20,16 @@ void Command_0 ()
         cout << BREAK_LINE << INPUT_ORDER_NAME[input_order] << "\n" << BREAK_LINE;
 
         // Write header
-        fo.open(INPUT_ORDER_NAME[input_order] + ".csv");
+        fo.open("Report - " + INPUT_ORDER_NAME[input_order] + ".csv");
         fo << "Data size,";
                 fo.flush();
-        for (int j = 0; j < DATA_SIZE.size(); ++j)
+        for (int data_index = 0; data_index < DATA_SIZE.size(); ++data_index)
         {
-            fo << DATA_SIZE[j] << ",,";
-                fo.flush();
+            fo << DATA_SIZE[data_index] << ",,";
+            fo.flush();
+            GeneratedDataArray[data_index] = vector<int>(DATA_SIZE[data_index]);
+            GenerateData(&GeneratedDataArray[data_index][0], GeneratedDataArray[data_index].size(), input_order);
+            ExportArray(GeneratedDataArray[data_index], "Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]));
         }
         fo << "\nResulting statics,";
                 fo.flush();
@@ -36,7 +40,7 @@ void Command_0 ()
         }
         fo << endl;
         
-        vector <int> arr = vector<int>();
+        vector <int> arr;
 
         // Process
         for (int index = 0; index < ALGO_NAME.size(); ++index)
@@ -50,8 +54,7 @@ void Command_0 ()
 
             for (int data_index = 0; data_index < DATA_SIZE.size(); ++data_index)
             {
-                arr.resize(DATA_SIZE[data_index]);
-                GenerateData(&arr[0], arr.size(), input_order);
+                arr = vector<int>(GeneratedDataArray[data_index]);
 
                 cout << "Input size: " << arr.size() << "\n";
 

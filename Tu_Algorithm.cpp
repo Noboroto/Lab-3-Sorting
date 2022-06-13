@@ -1,7 +1,8 @@
 #include "SortAlgorithms.h"
 
-void RadixSort(int array[], const int &n)
+double RadixSort(int array[], const int &n)
 {
+    clock_t start = clock();
     int i, exp = array[0];
     int counting[2] = {0, 0};
     int bit = 0;
@@ -15,6 +16,7 @@ void RadixSort(int array[], const int &n)
             exp = array[i];
         }
     }
+
     for (; exp > 0; exp >>= 1, ++bit)
     {
         counting[0] = 0;
@@ -34,6 +36,8 @@ void RadixSort(int array[], const int &n)
             counting[(temp[i] >> bit) & 1]--;
         }
     }
+
+    return (clock() - start);
 }
 
 void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter)
@@ -73,8 +77,9 @@ void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter)
     }
 }
 
-void ShellSort(int array[], const int &n)
+double ShellSort(int array[], const int &n)
 {
+    clock_t start = clock();
     int i, temp, j;
     for (int gap = n / 2; gap > 0; gap /= 2)
     {
@@ -88,6 +93,7 @@ void ShellSort(int array[], const int &n)
             array[j] = temp;
         }
     }
+    return (clock() - start);
 }
 
 void ShellSortCounting(int array[], const int &n, uint64_t &comparison_counter)
@@ -107,11 +113,12 @@ void ShellSortCounting(int array[], const int &n, uint64_t &comparison_counter)
     }
 }
 
-void FlashSort(int array[], const int &n) {}
+double FlashSort(int array[], const int &n) { return 0;}
 void FlashSortCounting(int array[], const int &n, uint64_t &comparison_counter) {}
 
-void ShakerSort(int arr[], const int &n)
+double ShakerSort(int arr[], const int &n)
 {
+    clock_t start = clock();
     int index = -1;
     int left = 0;
     int right = n - 1;
@@ -148,7 +155,10 @@ void ShakerSort(int arr[], const int &n)
         if (temp_index == index)
             break;
     }
+
+    return (clock() - start);
 }
+
 void ShakerSortCounting(int arr[], const int &n, uint64_t &comparison_counter)
 {
     int index = -1;

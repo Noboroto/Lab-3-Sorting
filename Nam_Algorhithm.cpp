@@ -1,7 +1,8 @@
 #include "SortAlgorithms.h"
 // Counting Sort
-void CountingSort(int array[], const int &n)
+double CountingSort(int array[], const int &n)
 {
+    clock_t start = clock();
     vector<int> count(n, 0);
     for (int i = 0; i < n; i++)
     {
@@ -16,6 +17,7 @@ void CountingSort(int array[], const int &n)
             count[i]--;
         }
     }
+    return (clock() - start);
 }
 //
 void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counter)
@@ -59,10 +61,11 @@ void Split(vector<int> &a, vector<int> &b, int array[], const int &n)
         b[b.size() - 1] = array[n - 1];
 }
 
-void MergeSort(int array[], const int &n)
+double MergeSort(int array[], const int &n)
 {
+    clock_t start = clock();
     if (n == 1)
-        return;
+        return (clock() - start);
     vector<int> a(n / 2, 0);
     vector<int> b(n / 2, 0);
     if (n % 2 != 0)
@@ -71,6 +74,7 @@ void MergeSort(int array[], const int &n)
     MergeSort(&a[0], a.size());
     MergeSort(&b[0], b.size());
     MergeArray(a, b, array, n);
+    return (clock() - start);
 }
 //
 void MergeArrayCounting(vector<int> &a, vector<int> &b, int array[], const int &n, uint64_t &comparison_counter)

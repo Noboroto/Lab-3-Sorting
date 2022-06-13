@@ -18,17 +18,17 @@ using namespace std;
 // 9	counting-sort
 // 10	flash-sort
 
-void SelectionSort(int array[], const int &n);
-void InsertionSort(int array[], const int &n);
-void BubbleSort(int array[], const int &n);
-void HeapSort(int array[], const int &n);
-void MergeSort(int array[], const int &n);
-void QuickSort(int array[], const int &n);
-void RadixSort(int array[], const int &n);
-void ShakerSort(int array[], const int &n);
-void ShellSort(int array[], const int &n);
-void CountingSort(int array[], const int &n);
-void FlashSort(int array[], const int &n);
+double SelectionSort(int array[], const int &n);
+double InsertionSort(int array[], const int &n);
+double BubbleSort(int array[], const int &n);
+double HeapSort(int array[], const int &n);
+double MergeSort(int array[], const int &n);
+double QuickSort(int array[], const int &n);
+double RadixSort(int array[], const int &n);
+double ShakerSort(int array[], const int &n);
+double ShellSort(int array[], const int &n);
+double CountingSort(int array[], const int &n);
+double FlashSort(int array[], const int &n);
 
 void SelectionSortCounting(int array[], const int &n, uint64_t &comparison_counter);
 void InsertionSortCounting(int array[], const int &n, uint64_t &comparison_counter);

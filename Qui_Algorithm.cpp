@@ -1,7 +1,8 @@
 #include "SortAlgorithms.h"
 
-void BubbleSort(int array[], const int &n)
+double BubbleSort(int array[], const int &n)
 {
+    clock_t start = clock();
     int i, j, temp;
     for (i = 0; i < n - 1; ++i)
     {
@@ -15,6 +16,7 @@ void BubbleSort(int array[], const int &n)
             }
         }
     }
+    return (clock() - start);
 }
 
 void BubbleSortCounting(int array[], const int &n, uint64_t &comparison_counter)
@@ -34,8 +36,9 @@ void BubbleSortCounting(int array[], const int &n, uint64_t &comparison_counter)
     }
 }
 
-void SelectionSort(int array[], const int &n)
+double SelectionSort(int array[], const int &n)
 {
+    clock_t start = clock();
     int i, j, min_index, temp;
     for (i = 0; i < n - 1; i++)
     {
@@ -51,6 +54,7 @@ void SelectionSort(int array[], const int &n)
             }
         }
     }
+    return (clock() - start);
 }
 
 void SelectionSortCounting(int array[], const int &n, uint64_t &comparison_counter)
@@ -107,9 +111,11 @@ void QuickSortExpand(int array[], int left, int right)
     }
 }
 
-void QuickSort(int array[], const int &n)
+double QuickSort(int array[], const int &n)
 {
+    clock_t start = clock();
     QuickSortExpand(array, 0, n - 1);
+    return (clock() - start);
 }
 
 void QuickSortExpandCounting(int array[], int left, int right, uint64_t &comparison_counter)
@@ -176,8 +182,9 @@ void HeapPartition(int array[], const int &n, int i)
     }
 }
 
-void HeapSort(int array[], const int &n)
+double HeapSort(int array[], const int &n)
 {
+    clock_t start = clock();
     for (int i = (n / 2) - 1; i >= 0; i--)
     {
         HeapPartition(array, n, i);
@@ -190,6 +197,7 @@ void HeapSort(int array[], const int &n)
         array[0] = temp;
         HeapPartition(array, i, 0);
     }
+    return (clock() - start);
 }
 
 void HeapPartitionCounting(int array[], const int &n, int i, uint64_t &comparison_counter)

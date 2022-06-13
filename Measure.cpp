@@ -1,5 +1,4 @@
 #include "Measure.h"
-#include <ctime>
 
 MeasureInfo::MeasureInfo()
 {
@@ -17,20 +16,14 @@ MeasureInfo MeasureSorting(SortAlgoPointer sort, SortAlgoPointerWithCounting sor
     switch (output_parameter)
     {
     case 0b01:
-        start = clock();
-        sort(&arr[0], arr.size());
-        end = clock();
-        info.time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+        info.time = (sort(&arr[0], arr.size()) * 1000) / CLOCKS_PER_SEC ;
         break;
     case 0b10:
         sort_counting(&arr[0], arr.size(), info.comparison_counter);
         break;
     case 0b11:
         vector<int> tmp = vector<int>(arr);
-        start = clock();
-        sort(&arr[0], arr.size());
-        end = clock();
-        info.time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+        info.time = (sort(&arr[0], arr.size()) * 1000) / CLOCKS_PER_SEC;
         sort_counting(&tmp[0], tmp.size(), info.comparison_counter);
         break;
     }

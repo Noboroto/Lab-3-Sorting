@@ -18,29 +18,29 @@ using namespace std;
 // 9	counting-sort
 // 10	flash-sort
 
-void SelectionSort(vector<int> &array);
-void InsertionSort(vector<int> &array);
-void BubbleSort(vector<int> &array);
-void HeapSort(vector<int> &array);
-void MergeSort(vector<int> &array);
-void QuickSort(vector<int> &array);
-void RadixSort(vector<int> &array);
-void ShakerSort(vector<int> &array);
-void ShellSort(vector<int> &array);
-void CountingSort(vector<int> &array);
-void FlashSort(vector<int> &array);
+void SelectionSort(int array[], const int &n);
+void InsertionSort(int array[], const int &n);
+void BubbleSort(int array[], const int &n);
+void HeapSort(int array[], const int &n);
+void MergeSort(int array[], const int &n);
+void QuickSort(int array[], const int &n);
+void RadixSort(int array[], const int &n);
+void ShakerSort(int array[], const int &n);
+void ShellSort(int array[], const int &n);
+void CountingSort(int array[], const int &n);
+void FlashSort(int array[], const int &n);
 
-void SelectionSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void InsertionSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void BubbleSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void HeapSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void MergeSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void QuickSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void RadixSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void ShakerSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void ShellSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void CountingSortCounting(vector<int> &array, uint64_t &comparison_counter);
-void FlashSortCounting(vector<int> &array, uint64_t &comparison_counter);
+void SelectionSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void InsertionSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void BubbleSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void HeapSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void MergeSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void QuickSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void ShakerSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void ShellSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counter);
+void FlashSortCounting(int array[], const int &n, uint64_t &comparison_counter);
 
 const vector<string> ALGO_NAME =
     {

@@ -1,14 +1,14 @@
 #include "SortAlgorithms.h"
 
-void RadixSort(vector<int> &array)
+void RadixSort(int array[], const int &n)
 {
     int i, exp = array[0];
     int counting[2] = {0, 0};
     int bit = 0;
 
-    vector<int> temp = vector<int>(array);
+    vector<int> temp = vector<int>(n);
 
-    for (i = 1; i < array.size(); i++)
+    for (i = 1; i < n; i++)
     {
         if (array[i] > exp)
         {
@@ -20,7 +20,7 @@ void RadixSort(vector<int> &array)
         counting[0] = 0;
         counting[1] = 0;
 
-        for (i = 0; i < array.size(); i++)
+        for (i = 0; i < n; i++)
         {
             counting[(array[i] >> bit) & 1]++;
             temp[i] = array[i];
@@ -36,15 +36,15 @@ void RadixSort(vector<int> &array)
     }
 }
 
-void RadixSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
 
     int i, exp;
     int counting[2] = {0, 0};
     int bit = 0;
-    vector<int> temp = vector<int>(array);
+    vector<int> temp = vector<int>(n);
 
-    for (i = 1; ++comparison_counter && i < array.size(); i++)
+    for (i = 1; ++comparison_counter && i < n; i++)
     {
         if (++comparison_counter && array[i] > exp)
         {
@@ -57,7 +57,7 @@ void RadixSortCounting(vector<int> &array, uint64_t &comparison_counter)
         counting[0] = 0;
         counting[1] = 0;
 
-        for (i = 0; ++comparison_counter && i < array.size(); i++)
+        for (i = 0; ++comparison_counter && i < n; i++)
         {
             counting[(array[i] >> bit) & 1]++;
             temp[i] = array[i];
@@ -73,12 +73,12 @@ void RadixSortCounting(vector<int> &array, uint64_t &comparison_counter)
     }
 }
 
-void ShellSort(vector<int> &array)
+void ShellSort(int array[], const int &n)
 {
     int i, temp, j;
-    for (int gap = array.size() / 2; gap > 0; gap /= 2)
+    for (int gap = n / 2; gap > 0; gap /= 2)
     {
-        for ( i = gap; i < array.size(); i += 1)
+        for (i = gap; i < n; i += 1)
         {
             temp = array[i];
             for (j = i; j >= gap && array[j - gap] > temp; j -= gap)
@@ -90,12 +90,12 @@ void ShellSort(vector<int> &array)
     }
 }
 
-void ShellSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void ShellSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
     int i, temp, j;
-    for (int gap = array.size() / 2; ++comparison_counter && gap > 0; gap /= 2)
+    for (int gap = n / 2; ++comparison_counter && gap > 0; gap /= 2)
     {
-        for (i = gap; ++comparison_counter && i < array.size(); i += 1)
+        for (i = gap; ++comparison_counter && i < n; i += 1)
         {
             temp = array[i];
             for (j = i; ++comparison_counter && j >= gap && ++comparison_counter && array[j - gap] > temp; j -= gap)
@@ -107,14 +107,14 @@ void ShellSortCounting(vector<int> &array, uint64_t &comparison_counter)
     }
 }
 
-void FlashSort(vector<int> &array) {}
-void FlashSortCounting(vector<int> &array, uint64_t &comparison_counter) {}
+void FlashSort(int array[], const int &n) {}
+void FlashSortCounting(int array[], const int &n, uint64_t &comparison_counter) {}
 
-void ShakerSort(std::vector<int> &arr)
+void ShakerSort(int arr[], const int &n)
 {
     int index = -1;
     int left = 0;
-    int right = arr.size() - 1;
+    int right = n - 1;
     int temp_index, i, temp;
 
     while (left < right)
@@ -149,11 +149,11 @@ void ShakerSort(std::vector<int> &arr)
             break;
     }
 }
-void ShakerSortCounting(std::vector<int> &arr, uint64_t &comparison_counter)
+void ShakerSortCounting(int arr[], const int &n, uint64_t &comparison_counter)
 {
     int index = -1;
     int left = 0;
-    int right = arr.size() - 1;
+    int right = n - 1;
     int temp_index, i, temp;
 
     while (++comparison_counter && (left < right))

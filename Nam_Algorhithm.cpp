@@ -1,9 +1,9 @@
 #include "SortAlgorithms.h"
 // Counting Sort
-void CountingSort(std::vector<int> &array)
+void CountingSort(int array[], const int &n)
 {
-    vector<int> count(array.size(), 0);
-    for (int i = 0; i < array.size(); i++)
+    vector<int> count(n, 0);
+    for (int i = 0; i < n; i++)
     {
         count[array[i]]++;
     }
@@ -18,10 +18,10 @@ void CountingSort(std::vector<int> &array)
     }
 }
 //
-void CountingSortCounting(std::vector<int> &array, uint64_t &comparison_counter)
+void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    vector<int> count(array.size(), 0);
-    for (int i = 0; ++comparison_counter && i < array.size(); i++)
+    vector<int> count(n, 0);
+    for (int i = 0; ++comparison_counter && i < n; i++)
     {
         count[array[i]]++;
     }
@@ -37,7 +37,7 @@ void CountingSortCounting(std::vector<int> &array, uint64_t &comparison_counter)
 }
 //--------------------------------------------------------------
 // Merge Sort
-void MergeArray(std::vector<int> &a, std::vector<int> &b, std::vector<int> &array)
+void MergeArray(vector<int> &a, vector<int> &b, int array[], const int &n)
 {
     int ia = 0, ib = 0, ic = 0;
     while (ia < a.size() && ib < b.size())
@@ -48,7 +48,7 @@ void MergeArray(std::vector<int> &a, std::vector<int> &b, std::vector<int> &arra
         array[ic++] = b[ib++];
 }
 
-void Split(std::vector<int> &a, std::vector<int> &b, std::vector<int> &array)
+void Split(vector<int> &a, vector<int> &b, int array[], const int &n)
 {
     for (int i = 0; i < a.size(); i++)
     {
@@ -56,24 +56,24 @@ void Split(std::vector<int> &a, std::vector<int> &b, std::vector<int> &array)
         b[i] = array[i + a.size()];
     }
     if (a.size() < b.size())
-        b[b.size() - 1] = array[array.size() - 1];
+        b[b.size() - 1] = array[n - 1];
 }
 
-void MergeSort(std::vector<int> &array)
+void MergeSort(int array[], const int &n)
 {
-    if (array.size() == 1)
+    if (n == 1)
         return;
-    vector<int> a(array.size() / 2, 0);
-    vector<int> b(array.size() / 2, 0);
-    if (array.size() % 2 != 0)
+    vector<int> a(n / 2, 0);
+    vector<int> b(n / 2, 0);
+    if (n % 2 != 0)
         b.push_back(0);
-    Split(a, b, array);
-    MergeSort(a);
-    MergeSort(b);
-    MergeArray(a, b, array);
+    Split(a, b, array, n);
+    MergeSort(&a[0], a.size());
+    MergeSort(&b[0], b.size());
+    MergeArray(a, b, array, n);
 }
 //
-void MergeArrayCounting(std::vector<int> &a, std::vector<int> &b, std::vector<int> &array, uint64_t &comparison_counter)
+void MergeArrayCounting(vector<int> &a, vector<int> &b, int array[], const int &n, uint64_t &comparison_counter)
 {
     int ia = 0, ib = 0, ic = 0;
     while (++comparison_counter && ia < a.size() && ++comparison_counter && ib < b.size())
@@ -83,7 +83,7 @@ void MergeArrayCounting(std::vector<int> &a, std::vector<int> &b, std::vector<in
     while (++comparison_counter && ib < b.size())
         array[ic++] = b[ib++];
 }
-void SplitCounting(std::vector<int> &a, std::vector<int> &b, std::vector<int> &array, uint64_t &comparison_counter)
+void SplitCounting(vector<int> &a, vector<int> &b, int array[], const int &n, uint64_t &comparison_counter)
 {
     for (int i = 0; ++comparison_counter && i < a.size(); i++)
     {
@@ -91,18 +91,18 @@ void SplitCounting(std::vector<int> &a, std::vector<int> &b, std::vector<int> &a
         b[i] = array[i + a.size()];
     }
     if (++comparison_counter && a.size() < b.size())
-        b[b.size() - 1] = array[array.size() - 1];
+        b[b.size() - 1] = array[n - 1];
 }
-void MergeSortCounting(std::vector<int> &array, uint64_t &comparison_counter)
+void MergeSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    if (++comparison_counter && array.size() == 1)
+    if (++comparison_counter && n == 1)
         return;
-    vector<int> a(array.size() / 2, 0);
-    vector<int> b(array.size() / 2, 0);
-    if (++comparison_counter && array.size() % 2 != 0)
+    vector<int> a(n / 2, 0);
+    vector<int> b(n / 2, 0);
+    if (++comparison_counter && n % 2 != 0)
         b.push_back(0);
-    SplitCounting(a, b, array, comparison_counter);
-    MergeSortCounting(a, comparison_counter);
-    MergeSortCounting(b, comparison_counter);
-    MergeArrayCounting(a, b, array, comparison_counter);
+    SplitCounting(a, b, array, n, comparison_counter);
+    MergeSortCounting(&a[0], a.size(), comparison_counter);
+    MergeSortCounting(&b[0], b.size(), comparison_counter);
+    MergeArrayCounting(a, b, array, n, comparison_counter);
 }

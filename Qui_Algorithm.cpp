@@ -1,12 +1,11 @@
 #include "SortAlgorithms.h"
 
-
-void BubbleSort(vector<int> &array)
+void BubbleSort(int array[], const int &n)
 {
     int i, j, temp;
-    for (i = 0; i < array.size() - 1; ++i)
+    for (i = 0; i < n - 1; ++i)
     {
-        for (j = i + 1; j < array.size(); ++j)
+        for (j = i + 1; j < n; ++j)
         {
             if (array[i] > array[j])
             {
@@ -18,12 +17,12 @@ void BubbleSort(vector<int> &array)
     }
 }
 
-void BubbleSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void BubbleSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
     int i, j, temp;
-    for (i = 0; ++comparison_counter && i < array.size() - 1; ++i)
+    for (i = 0; ++comparison_counter && i < n - 1; ++i)
     {
-        for (j = i + 1; ++comparison_counter && j < array.size(); ++j)
+        for (j = i + 1; ++comparison_counter && j < n; ++j)
         {
             if (++comparison_counter && array[i] > array[j])
             {
@@ -35,14 +34,13 @@ void BubbleSortCounting(vector<int> &array, uint64_t &comparison_counter)
     }
 }
 
-
-void SelectionSort(vector <int> &array)
+void SelectionSort(int array[], const int &n)
 {
     int i, j, min_index, temp;
-    for (i = 0; i < array.size() - 1; i++)
+    for (i = 0; i < n - 1; i++)
     {
         min_index = i;
-        for (j = i + 1; j < array.size(); j++)
+        for (j = i + 1; j < n; j++)
         {
             if (array[j] < array[min_index])
             {
@@ -55,15 +53,15 @@ void SelectionSort(vector <int> &array)
     }
 }
 
-void SelectionSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void SelectionSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
     int i, j, min_index, temp;
-    for (i = 0; ++comparison_counter && i < array.size() - 1; i++)
+    for (i = 0; ++comparison_counter && i < n - 1; i++)
     {
         min_index = i;
-        for (j = i + 1; ++comparison_counter && j < array.size(); j++)
+        for (j = i + 1; ++comparison_counter && j < n; j++)
         {
-            if (++comparison_counter &&  array[j] < array[min_index])
+            if (++comparison_counter && array[j] < array[min_index])
             {
                 min_index = j;
                 temp = array[i];
@@ -74,24 +72,23 @@ void SelectionSortCounting(vector<int> &array, uint64_t &comparison_counter)
     }
 }
 
-
-void QuickSortExpand(vector<int> &array, int left, int right)
+void QuickSortExpand(int array[], int left, int right)
 {
     int mid_value = array[(left + right) / 2];
     int i = left;
     int j = right;
     int temp;
-    while(i < j)
+    while (i < j)
     {
-        while(array[i] < mid_value)
+        while (array[i] < mid_value)
         {
             i++;
         }
-        while(array[j] > mid_value)
+        while (array[j] > mid_value)
         {
             j--;
         }
-        if(i <= j)
+        if (i <= j)
         {
             temp = array[i];
             array[i] = array[j];
@@ -100,22 +97,22 @@ void QuickSortExpand(vector<int> &array, int left, int right)
             j--;
         }
     }
-    if(i < right)
+    if (i < right)
     {
         QuickSortExpand(array, i, right);
     }
-    if(left < j)
+    if (left < j)
     {
         QuickSortExpand(array, left, j);
     }
 }
 
-void QuickSort(vector<int> &array)
+void QuickSort(int array[], const int &n)
 {
-    QuickSortExpand(array, 0, array.size() - 1);
+    QuickSortExpand(array, 0, n - 1);
 }
 
-void QuickSortExpandCounting(vector<int> &array, int left, int right, uint64_t &comparison_counter)
+void QuickSortExpandCounting(int array[], int left, int right, uint64_t &comparison_counter)
 {
     int mid_value = array[(left + right) / 2];
     int i = left;
@@ -150,15 +147,14 @@ void QuickSortExpandCounting(vector<int> &array, int left, int right, uint64_t &
     }
 }
 
-void QuickSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void QuickSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    QuickSortExpandCounting(array, 0, array.size() - 1, comparison_counter);
+    QuickSortExpandCounting(array, 0, n - 1, comparison_counter);
 }
 
-
-void HeapPartition(vector <int> &array, int n, int i)
+void HeapPartition(int array[], const int &n, int i)
 {
-    int max = i; 
+    int max = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
     int temp;
@@ -171,7 +167,7 @@ void HeapPartition(vector <int> &array, int n, int i)
     {
         max = right;
     }
-    if (max != i) 
+    if (max != i)
     {
         temp = array[i];
         array[i] = array[max];
@@ -180,14 +176,14 @@ void HeapPartition(vector <int> &array, int n, int i)
     }
 }
 
-void HeapSort(vector<int> &array)
+void HeapSort(int array[], const int &n)
 {
-    for (int i = (array.size() / 2) - 1; i >= 0; i--)
+    for (int i = (n / 2) - 1; i >= 0; i--)
     {
-        HeapPartition(array, array.size(), i);
+        HeapPartition(array, n, i);
     }
     int temp;
-    for (int i = (array.size() - 1); i >= 0; i--) 
+    for (int i = (n - 1); i >= 0; i--)
     {
         temp = array[i];
         array[i] = array[0];
@@ -196,7 +192,7 @@ void HeapSort(vector<int> &array)
     }
 }
 
-void HeapPartitionCounting(vector<int> &array, int n, int i, uint64_t &comparison_counter)
+void HeapPartitionCounting(int array[], const int &n, int i, uint64_t &comparison_counter)
 {
     int max = i;
     int left = 2 * i + 1;
@@ -220,14 +216,14 @@ void HeapPartitionCounting(vector<int> &array, int n, int i, uint64_t &compariso
     }
 }
 
-void HeapSortCounting(vector<int> &array, uint64_t &comparison_counter)
+void HeapSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    for (int i = (array.size() / 2) - 1; ++comparison_counter && i >= 0; i--)
+    for (int i = (n / 2) - 1; ++comparison_counter && i >= 0; i--)
     {
-        HeapPartitionCounting(array, array.size(), i, comparison_counter);
+        HeapPartitionCounting(array, n, i, comparison_counter);
     }
     int temp;
-    for (int i = (array.size() - 1); ++comparison_counter && i >= 0; i--)
+    for (int i = (n - 1); ++comparison_counter && i >= 0; i--)
     {
         temp = array[i];
         array[i] = array[0];

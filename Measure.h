@@ -6,8 +6,8 @@
 
 using namespace std;
 
-typedef void (*SortAlgoPointer)(std::vector<int>& array);
-typedef void (*SortAlgoPointerWithCounting)(std::vector<int> &array, uint64_t &comparison_counter);
+typedef void (*SortAlgoPointer)(int array[], const int &n);
+typedef void (*SortAlgoPointerWithCounting)(int array[], const int &n, uint64_t &comparison_counter);
 
 struct MeasureInfo
 {

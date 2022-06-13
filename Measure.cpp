@@ -18,20 +18,20 @@ MeasureInfo MeasureSorting(SortAlgoPointer sort, SortAlgoPointerWithCounting sor
     {
     case 0b01:
         start = clock();
-        sort(arr);
+        sort(&arr[0], arr.size());
         end = clock();
         info.time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
         break;
     case 0b10:
-        sort_counting(arr, info.comparison_counter);
+        sort_counting(&arr[0], arr.size(), info.comparison_counter);
         break;
     case 0b11:
         vector<int> tmp = vector<int>(arr);
         start = clock();
-        sort(arr);
+        sort(&arr[0], arr.size());
         end = clock();
         info.time = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
-        sort_counting(tmp, info.comparison_counter);
+        sort_counting(&tmp[0], tmp.size(), info.comparison_counter);
         break;
     }
 

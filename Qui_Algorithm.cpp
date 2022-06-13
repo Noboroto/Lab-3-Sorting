@@ -118,17 +118,17 @@ void QuickSortExpandCounting(int array[], int left, int right, uint64_t &compari
     int i = left;
     int j = right;
     int temp;
-    while (i < j)
+    while (++comparison_counter && i < j)
     {
-        while (array[i] < mid_value)
+        while (++comparison_counter && array[i] < mid_value)
         {
             i++;
         }
-        while (array[j] > mid_value)
+        while (++comparison_counter && array[j] > mid_value)
         {
             j--;
         }
-        if (i <= j)
+        if (++comparison_counter && i <= j)
         {
             temp = array[i];
             array[i] = array[j];
@@ -137,11 +137,11 @@ void QuickSortExpandCounting(int array[], int left, int right, uint64_t &compari
             j--;
         }
     }
-    if (i < right)
+    if (++comparison_counter && i < right)
     {
         QuickSortExpandCounting(array, i, right, comparison_counter);
     }
-    if (left < j)
+    if (++comparison_counter && left < j)
     {
         QuickSortExpandCounting(array, left, j, comparison_counter);
     }

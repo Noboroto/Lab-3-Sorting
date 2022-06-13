@@ -1,19 +1,22 @@
 #include "Command.h"
 #include "DataGenerator.h"
 
-void Command_0 ()
+void Command_0()
 {
     const vector<int> DATA_SIZE =
-    {
-        10000,
-        30000,
-        50000,
-        100000,
-        300000,
-        500000,
-    };
-    vector < vector <int> > GeneratedDataArray = vector< vector<int> >(DATA_SIZE.size());
+        {
+            10000,
+            30000,
+            50000,
+            100000,
+            300000,
+            500000,
+        };
+    vector<vector<int>> GeneratedDataArray = vector<vector<int>>(DATA_SIZE.size());
     ofstream fo;
+    ifstream fi;
+    string file_path;
+    int n;
 
     for (int input_order = 0; input_order < INPUT_ORDER_NAME.size(); ++input_order)
     {
@@ -22,25 +25,35 @@ void Command_0 ()
         // Write header
         fo.open("Report - " + INPUT_ORDER_NAME[input_order] + ".csv");
         fo << "Data size,";
-                fo.flush();
+        fo.flush();
         for (int data_index = 0; data_index < DATA_SIZE.size(); ++data_index)
         {
+            file_path = "Data/Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]) + ".txt";
+            
             fo << DATA_SIZE[data_index] << ",,";
             fo.flush();
+
             GeneratedDataArray[data_index] = vector<int>(DATA_SIZE[data_index]);
-            GenerateData(&GeneratedDataArray[data_index][0], GeneratedDataArray[data_index].size(), input_order);
-            ExportArray(GeneratedDataArray[data_index], "Data - " + to_string(input_order) + "-" + INPUT_ORDER_NAME[input_order] + "-" + to_string(DATA_SIZE[data_index]) + ".txt");
+
+            fi.open(file_path);
+            fi >> n;
+            for (int i = 0; i < n; ++i)
+            {
+                fi >> GeneratedDataArray[data_index][i];
+            }
+            fi.close();
         }
+        
         fo << "\nResulting statics,";
         fo.flush();
         for (int j = 0; j < DATA_SIZE.size(); ++j)
         {
             fo << "Running time,Comparision,";
-                fo.flush();
+            fo.flush();
         }
         fo << endl;
-        
-        vector <int> arr;
+
+        vector<int> arr;
 
         // Process
         for (int index = 0; index < ALGO_NAME.size(); ++index)
@@ -50,7 +63,7 @@ void Command_0 ()
             cout << BREAK_LINE;
 
             fo << ALGO_NAME[index] << ",";
-                fo.flush();
+            fo.flush();
 
             for (int data_index = 0; data_index < DATA_SIZE.size(); ++data_index)
             {
@@ -80,7 +93,7 @@ void Command_0 ()
 void Command_1(int8_t sort_index, string file_path, int8_t output_option)
 {
     // Init
-    ifstream fi (file_path);
+    ifstream fi(file_path);
     if (!fi.is_open())
     {
         PrintError("Cannot open input file!");
@@ -88,7 +101,7 @@ void Command_1(int8_t sort_index, string file_path, int8_t output_option)
     }
     int32_t n;
     fi >> n;
-    vector <int> arr = vector<int>(n);
+    vector<int> arr = vector<int>(n);
 
     // Read array
     for (int i = 0; i < n; ++i)
@@ -105,10 +118,10 @@ void Command_1(int8_t sort_index, string file_path, int8_t output_option)
     cout << BREAK_LINE;
 
     // Process
-    MeasureInfo algo_info = MeasureSorting(SORT_ARRAY[sort_index],SORT_ARRAY_COUNTING[sort_index], arr, output_option);
+    MeasureInfo algo_info = MeasureSorting(SORT_ARRAY[sort_index], SORT_ARRAY_COUNTING[sort_index], arr, output_option);
 
     PrintReport(algo_info, output_option);
-    
+
     ExportArray(arr, "output.txt");
 }
 

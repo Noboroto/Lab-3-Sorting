@@ -3,17 +3,25 @@
 double CountingSort(int array[], const int &n)
 {
     clock_t start = clock();
-    vector<int> count(n, 0);
+    int max = array[0], min = array[0];
+    for (int i = 1; i < n; ++i)
+    {
+        if (max < array[i])
+            max = array[i];
+        if (min > array[i])
+            min = array[i];
+    }
+    vector<int> count(max - min + 1, 0);
     for (int i = 0; i < n; i++)
     {
-        count[array[i]]++;
+        count[array[i] - min]++;
     }
     int tmp = 0;
     for (int i = 0; i < count.size(); i++)
     {
         while (count[i] > 0)
         {
-            array[tmp++] = i;
+            array[tmp++] = i + min;
             count[i]--;
         }
     }
@@ -22,17 +30,25 @@ double CountingSort(int array[], const int &n)
 //
 void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    vector<int> count(n, 0);
+    int max = array[0], min = array[0];
+    for (int i = 1; ++comparison_counter && i < n; ++i)
+    {
+        if (++comparison_counter && max < array[i])
+            max = array[i];
+        if (++comparison_counter && min > array[i])
+            min = array[i];
+    }
+    vector<int> count(max - min + 1, 0);
     for (int i = 0; ++comparison_counter && i < n; i++)
     {
-        count[array[i]]++;
+        count[array[i] - min]++;
     }
     int tmp = 0;
     for (int i = 0; ++comparison_counter && i < count.size(); i++)
     {
         while (++comparison_counter && count[i] > 0)
         {
-            array[tmp++] = i;
+            array[tmp++] = i + min;
             count[i]--;
         }
     }

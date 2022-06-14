@@ -1,45 +1,60 @@
 #include "SortAlgorithms.h"
+#include <iostream>
 
 double RadixSort(int array[], const int &n)
 {
     clock_t start = clock();
-    int i, exp, max_value = array[0];
-    int counting[10];
+    int i, exp = array[0];
+    int counting[2] = {0, 0};
     int bit = 0;
 
     vector<int> temp = vector<int>(n);
 
-    for (i = 1; i < n; ++i)
+    for (i = 1; i < n; i++)
     {
-        if (array[i] > max_value)
+        if (array[i] > exp)
         {
-            max_value = array[i];
+            exp = (array[i] >= 0) ? array[i] : ~array[i];
         }
     }
 
-    for (exp = 1; max_value / exp > 0; exp *= 10)
+    for (; exp > 0; exp >>= 1, ++bit)
     {
-        for (i = 0; i < 10; ++i)
-        {
-            counting[i] = 0;
-        }
+        counting[0] = 0;
+        counting[1] = 0;
 
-        for (i = 0; i < n; ++i)
+        for (i = 0; i < n; i++)
         {
-            counting[(array[i] / exp) % 10]++;
+            counting[(array[i] >> bit) & 1]++;
             temp[i] = array[i];
         }
 
-        for (i = 1; i < 10; i++)
-        {
-            counting[i] += counting[i - 1];
-        }
+        counting[1] += counting[0];
 
         for (i = temp.size() - 1; i >= 0; i--)
         {
-            array[counting[(temp[i] / exp) % 10] - 1] = temp[i];
-            counting[(temp[i] / exp) % 10]--;
+            array[counting[(temp[i] >> bit) & 1] - 1] = temp[i];
+            counting[(temp[i] >> bit) & 1]--;
         }
+    }
+
+    // Process MSB
+    bit = 31;
+    counting[0] = 0;
+    counting[1] = 0;
+
+    for (i = 0; i < n; i++)
+    {
+        counting[~(array[i] >> bit) & 1]++;
+        temp[i] = array[i];
+    }
+
+    counting[1] += counting[0];
+
+    for (i = temp.size() - 1; i >= 0; i--)
+    {
+        array[counting[~(temp[i] >> bit) & 1] - 1] = temp[i];
+        counting[~(temp[i] >> bit) & 1]--;
     }
 
     return (clock() - start);
@@ -47,43 +62,57 @@ double RadixSort(int array[], const int &n)
 
 void RadixSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
-    int i, exp, max_value = array[0];
-    int counting[10];
+    int i, exp = array[0];
+    int counting[2] = {0, 0};
     int bit = 0;
 
     vector<int> temp = vector<int>(n);
 
-    for (i = 1;++comparison_counter && i < n; ++i)
+    for (i = 1;++comparison_counter && i < n; i++)
     {
-        if (++comparison_counter && array[i] > max_value)
+        if (++comparison_counter && array[i] > exp)
         {
-            max_value = array[i];
+            exp = (++comparison_counter && array[i] >= 0) ? array[i] : ~array[i];
         }
     }
 
-    for (exp = 1; ++comparison_counter && max_value / exp > 0; exp *= 10)
+    for (; exp > 0; exp >>= 1, ++bit)
     {
-        for (i = 0; ++comparison_counter && i < 10; ++i)
-        {
-            counting[i] = 0;
-        }
+        counting[0] = 0;
+        counting[1] = 0;
 
-        for (i = 0; ++comparison_counter && i < n; ++i)
+        for (i = 0; ++comparison_counter && i < n; i++)
         {
-            counting[(array[i] / exp) % 10]++;
+            counting[(array[i] >> bit) & 1]++;
             temp[i] = array[i];
         }
 
-        for (i = 1; ++comparison_counter && i < 10; i++)
-        {
-            counting[i] += counting[i - 1];
-        }
+        counting[1] += counting[0];
 
         for (i = temp.size() - 1; ++comparison_counter && i >= 0; i--)
         {
-            array[counting[(temp[i] / exp) % 10] - 1] = temp[i];
-            counting[(temp[i] / exp) % 10]--;
+            array[counting[(temp[i] >> bit) & 1] - 1] = temp[i];
+            counting[(temp[i] >> bit) & 1]--;
         }
+    }
+
+    // Process MSB
+    bit = 31;
+    counting[0] = 0;
+    counting[1] = 0;
+
+    for (i = 0; ++comparison_counter && i < n; i++)
+    {
+        counting[~(array[i] >> bit) & 1]++;
+        temp[i] = array[i];
+    }
+
+    counting[1] += counting[0];
+
+    for (i = temp.size() - 1; ++comparison_counter && i >= 0; i--)
+    {
+        array[counting[~(temp[i] >> bit) & 1] - 1] = temp[i];
+        counting[~(temp[i] >> bit) & 1]--;
     }
 }
 

@@ -10,7 +10,6 @@ MeasureInfo MeasureSorting(SortAlgoPointer sort, SortAlgoPointerWithCounting sor
 {
     //initialize
     MeasureInfo info = MeasureInfo();
-    clock_t start, end;
 
     // mesuare time
     switch (output_parameter)

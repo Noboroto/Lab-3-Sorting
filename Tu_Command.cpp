@@ -17,7 +17,9 @@ void Command_0()
     ifstream fi;
     string file_path;
     int n;
-
+    fo.open("start.txt");
+    fo.close();
+    
     for (int input_order = 0; input_order < INPUT_ORDER_NAME.size(); ++input_order)
     {
         cout << BREAK_LINE << INPUT_ORDER_NAME[input_order] << "\n" << BREAK_LINE;

@@ -3,11 +3,6 @@
 
 int main (int32_t argc, char** argv)
 {
-    if (argc == 1)
-    {
-        Command_0();
-        return 0;
-    }
     if (argc < 5)
     {
         PrintError("Not enough parameters!");

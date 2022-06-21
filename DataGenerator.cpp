@@ -71,6 +71,6 @@ void GenerateData(int a[], int n, int dataType)
 		GenerateNearlySortedData(a, n);
 		break;
 	default:
-		printf("Error: unknown data type!\n");
+		cout << "Error: unknown data type!\n";
 	}
 }

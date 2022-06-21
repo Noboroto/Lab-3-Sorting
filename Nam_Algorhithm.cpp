@@ -4,7 +4,8 @@ double CountingSort(int array[], const int &n)
 {
     clock_t start = clock();
     int max = array[0], min = array[0];
-    for (int i = 1; i < n; ++i)
+    vector <int> ans = vector<int>(n);
+    for (int i = 1;i < n; ++i)
     {
         if (max < array[i])
             max = array[i];
@@ -15,15 +16,16 @@ double CountingSort(int array[], const int &n)
     for (int i = 0; i < n; i++)
     {
         count[array[i] - min]++;
+        ans[i] = array[i];
     }
-    int tmp = 0;
-    for (int i = 0; i < count.size(); i++)
+    for (int i = 1; i < count.size(); i++) 
     {
-        while (count[i] > 0)
-        {
-            array[tmp++] = i + min;
-            count[i]--;
-        }
+        count[i] += count[i - 1];
+    }
+    for (int i = n - 1; i >= 0; i--) 
+    {
+        array[count[ans[i] - min] - 1] = ans[i];
+        count[ans[i] - min]--;
     }
     return (clock() - start);
 }
@@ -31,6 +33,7 @@ double CountingSort(int array[], const int &n)
 void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counter)
 {
     int max = array[0], min = array[0];
+    vector<int> ans = vector<int>(n);
     for (int i = 1; ++comparison_counter && i < n; ++i)
     {
         if (++comparison_counter && max < array[i])
@@ -42,15 +45,16 @@ void CountingSortCounting(int array[], const int &n, uint64_t &comparison_counte
     for (int i = 0; ++comparison_counter && i < n; i++)
     {
         count[array[i] - min]++;
+        ans[i] = array[i];
     }
-    int tmp = 0;
-    for (int i = 0; ++comparison_counter && i < count.size(); i++)
+    for (int i = 1; ++comparison_counter && i < count.size(); i++)
     {
-        while (++comparison_counter && count[i] > 0)
-        {
-            array[tmp++] = i + min;
-            count[i]--;
-        }
+        count[i] += count[i - 1];
+    }
+    for (int i = n - 1; ++comparison_counter && i >= 0; i--)
+    {
+        array[count[ans[i] - min] - 1] = ans[i];
+        count[ans[i] - min]--;
     }
 }
 //--------------------------------------------------------------
